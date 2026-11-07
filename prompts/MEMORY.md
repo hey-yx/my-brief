@@ -8,7 +8,7 @@ UISpecs（原 speccite→Readspec→UISpecs，2026-11-07 定名；目录 ~/works
 §
 多聊天会话并行、状态会打架：关键状态（cron/服务/看板）动手前重读并记快照时点，汇报注明。
 §
-magpie 网关 127.0.0.1:3425；4 worker 已对齐 default 模型段；WB Proxy(8788) 无并发限制。
+[本地网关] 127.0.0.1:3425；4 worker 已对齐 default 模型段；[代理服务](8788) 无并发限制。
 §
 双域名 [域名 A]+[域名 B] 证书/续期/1Panel 陷阱全在 [服务器手册路径]；动手前先读同目录 ai-runbook.md。
 §
@@ -34,7 +34,7 @@ Write 覆盖已有文件常被拒（提示未见完整内容或部分视图）�
 §
 NameYouLike 只做英文命名，改站先问减什么；元素库/系列库已删勿再加回；提示词正文在仓库根 prompt.txt；server/ 服务层是已下线残骸已删勿回；形状钉在 tests/research-stage.test.ts。站点布局/皮肤细节见 creative/page-design-preferences 与 devops/naming skill、项目 research/。
 §
-默认模型=group/smart-mix。思考强度三层：magpie hermes effort 写入 config 的 agent.reasoning_effort，桌面预设另在 ui-preferences（批量改用 hermes-agent skill 的 scripts/set_presets_effort.py，自动 bump revision）；2026-11-06 三层回落 medium（delegation 仍 low），compression.threshold_tokens 已调 30 万。WB Proxy 全系 43-73 tok/s 同档；仪表盘 tok/s 分子含隐藏思考；magpie 价是美元。
+默认模型=group/smart-mix。思考强度三层：本地网关的 hermes effort 写入 config 的 agent.reasoning_effort，桌面预设另在 ui-preferences（批量改用 hermes-agent skill 的 scripts/set_presets_effort.py，自动 bump revision）；2026-11-06 三层回落 medium（delegation 仍 low），compression.threshold_tokens 已调 30 万。[代理服务] 全系 43-73 tok/s 同档；仪表盘 tok/s 分子含隐藏思考；[本地网关] 价是美元。
 §
 审计类任务只做用户点名的项目，不自动扩到 active 下全部项目（2026-11-03 用户纠正）。
 §
