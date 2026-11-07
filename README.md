@@ -8,6 +8,7 @@
 |---|---|
 | `prompts/SOUL.md` | 全局规则：边界、回复格式、事实来源、工具习惯 |
 | `prompts/USER.md` | 个人偏好：做事方式、输出约定、验收习惯 |
+| `profiles/` | 四个 worker 的角色提示词：工程师、提示词工程师、研究员、审查员 |
 | `skills/` | 常用 skill：回复、文案、证据分级、交付纪律 |
 | `BROWSER.md` | 浏览器自动化：挑浏览器、驱动页面、登录、反爬、Camoufox |
 | `WHY.md` | 这些规则为什么这样写，哪些能改 |
@@ -17,7 +18,8 @@
 1. `prompts/SOUL.md` 放到 `~/.hermes/SOUL.md`
 2. `prompts/USER.md` 放到 `~/.hermes/memories/USER.md`
 3. `skills/<name>/` 复制到 skills 目录
-4. 浏览器规则按 `BROWSER.md` 配
+4. `profiles/<name>/SOUL.md` 放到对应 profile 的目录
+5. 浏览器规则按 `BROWSER.md` 配
 
 多 profile 时，每个 profile 的 `memories` 目录各放一份。换机器时把方括号占位符改成本机对应的值。
 
