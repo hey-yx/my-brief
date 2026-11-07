@@ -147,6 +147,62 @@
 
 「直接上全套拟人化」这条是试出来的。之前以为可以先低配再升级，结果墙根本不吃这套，低配那步纯属浪费。中途换出口这个坑更狠，凭证绑 IP，一换全部作废，之前过的全白过。
 
+### Camoufox（隐身浏览器）
+
+反爬墙那条说的「专门的隐身浏览器」就是 Camoufox。它是 Firefox 的改版，指纹在 C++ 层改，JavaScript 看到之前就已经换好了；跑在自己的 profile 里，不碰你日常的浏览器。
+
+#### 装
+
+```bash
+git clone https://github.com/jo-inc/camofox-browser
+cd camofox-browser
+npm install --registry=https://registry.npmmirror.com --disturl=https://npmmirror.com/mirrors/node/
+npm start   # 默认 http://localhost:9377
+```
+
+两个 npm 参数要一起给：registry 管包，disturl 管 node-gyp 下 Node 头文件，少一个原生模块就编不过。服务要常驻，调之前先 `curl localhost:9377/health`。
+
+内核别用 `camoufox fetch`，代理层数多时只有几十 KB/s。改用 aria2c 多线程拉 GitHub 官方 release 的 zip，解压到 Camoufox 自己的缓存目录，再写一个 `version.json`，版本号和 release tag 对齐。缓存目录会被 macOS 清掉，症状是 health 正常但新建 tab 报 `Version information not found`，重新解压就行。
+
+#### 接进 Hermes
+
+```bash
+hermes plugins install camofox
+hermes plugins enable camofox
+# 在 Hermes 的环境变量配置里加一行
+CAMOFOX_URL=http://localhost:9377
+```
+
+插件工具要到下个会话才注册；当次任务直接走 REST。
+
+#### 直接调 REST
+
+```bash
+curl -s -X POST localhost:9377/tabs -H 'content-type: application/json' \
+  -d '{"userId":"me","sessionKey":"task-1","url":"https://example.com"}'
+```
+
+`sessionKey` 必填。之后用 `/tabs/{id}/navigate`、`snapshot`、`click`、`type`、`evaluate`。点击要给 `ref` 或 `selector`，坐标会被拒；`evaluate` 偶尔 500，原样重试两三次再排查。快照里的 ref 会随重渲染失效，动手前重新 snapshot。
+
+闲置 tab 会被回收，但 profile 里的登录态还在，用同一个 `userId` 新建 tab 再导航即可。闲置后的第一次建 tab 要等约 30 秒，是在重启整个浏览器，别当失败。
+
+#### 拟人层
+
+指纹只解决设备层。行为分析看的是鼠标轨迹、输入节奏和操作时序，默认自动化一眼假。探到墙就直接上全套，不要先试低配：
+
+- 动作之间随机停 0.8 到 3 秒，页面加载完先停 1 到 2 秒
+- 鼠标走三次贝塞尔，控制点偏离直线 15% 到 30%，点击前犹豫 100 到 300 毫秒
+- 打字按 400 到 600 CPM，空格后停 200 到 600 毫秒，词组之间停 0.8 到 2 秒
+- 滚动分段、不等距、带加减速，不要一次到底
+
+轨迹必须用真实输入事件。JS `dispatchEvent` 造的事件 `isTrusted=false`，比不造还糟。REST 只有 hover 和 drag 的粒度，没有 mousemove；高风险任务用 Playwright 风格的 `page.mouse.move(x, y, steps=...)` 分步发。
+
+#### 边界
+
+- 只在反爬路线开拟人层，普通站点不加戏
+- 商业指纹浏览器只管设备层，行为层还得自己写
+- 撞上短信或扫码验证就停下来交给你，不猜、不绕
+
 ### 连你自己的浏览器
 
 > 确实要用你登录状态的时候才连，先问你。
