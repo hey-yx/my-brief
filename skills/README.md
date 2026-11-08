@@ -6,5 +6,6 @@
 - `chat-output-style`：中英文产出先过写作规则和标点检查
 - `calibrated-claims`：说事实带证据等级，不把推断写成实测
 - `intent-to-ship`：执行类任务限定范围，自验交付
+- `project-intent-file`：维护项目根的 `user-input.md`，让代码和文档跟意图对齐
 
-第三方 skill 不在这里转存，比如 `write`、`hallmark`，按原项目装。这里的文件只把本机路径改成 `~`，其余保持原样。
+第三方 skill 不在这里转存，比如 `write`、`hallmark`，按原项目装。这里的文件把本机路径改成 `~`，破折号按标点规则统一处理，其余保持原样。
